@@ -9,21 +9,22 @@ def main():
     while True:
         windows = gw.getWindowsWithTitle('image')
         for window in windows:
-            #window.restore()
+            window.restore()
+            window.activate()
             window.maximize()
-            #window.activate()
-            print(window.title)
+            time.sleep(0.5)
+
             if window.isActive & window.isMaximized:
                 screenshot = pyautogui.screenshot(region=(window.left, window.top, window.width, window.height))
                 screenshot.save(f'screenshot {windows.index(window)}.png')
 
                 ocr_result = perform_ocr(f'screenshot {windows.index(window)}.png')
                 for error_code in error_codes:
-                    if f"Error Code: {error_code}".replace(" ", "") in ocr_result.replace(" ", ""):
-                        print(f"Found Error Code: {error_code} in window: {window.title}")
+                    if f"{error_code}".replace(" ", "") in ocr_result.replace(" ", ""):
+                        print(f"Found Error Code: {error_code} in window: {window.title} ")
+
                         #window.close()
                 window.minimize()
-                #windows.remove(window)
 
         time.sleep(10)
 
