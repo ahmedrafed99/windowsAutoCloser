@@ -17,7 +17,7 @@ python -m venv venv
 
 then activate it:
 source venv/bin/activate  
-# On Windows: .\venv\Scripts\activate
+On Windows: .\venv\Scripts\activate
 
 pip install -r requirements.txt
 
