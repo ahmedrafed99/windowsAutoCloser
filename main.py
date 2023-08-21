@@ -12,27 +12,33 @@ output_file = "error_log.txt"
 BRIGHTNESS_FACTOR = 1.5
 CONTRAST_FACTOR = 1.5
 def main():
+
     while True:
         windows = gw.getWindowsWithTitle('image')
+
         for window in windows:
+            window_title = window.title
+            window_index = windows.index(window)
+
+            window.minimize()
             window.restore()
-            window.activate()
-            window.maximize()
             time.sleep(0.5)
 
-            if window.isActive & window.isMaximized:
+            if window.isActive:
                 screenshot = pyautogui.screenshot(region=(window.left, window.top, window.width, window.height))
                 enhanced_screenshot = enhance_image(screenshot)
-                enhanced_screenshot.save(f'screenshots/screenshot {windows.index(window)}.png')
+                enhanced_screenshot.save(f'screenshots/screenshot {window_index}.png')
 
-                ocr_result = perform_ocr(f'screenshots/screenshot {windows.index(window)}.png')
+                ocr_result = perform_ocr(f'screenshots/screenshot {window_index}.png')
                 for error_code in error_codes:
                     if f"Error Code: {error_code}".replace(" ", "").lower() in ocr_result.replace(" ", "").lower():
-                        error_message = f"Error Code: {error_code} in window: {window.title}\n"
+                        error_message = f"Found Error Code: {error_code} in window: {window_title}"
                         save_error_to_file(error_message)
                         print(error_message)
                         window.close()
-                window.minimize()
+                        window_closed_alert = f"closed window{window_title}"
+                        print(window_closed_alert)
+                        save_error_to_file(window_closed_alert)
 
         time.sleep(10)
 
@@ -47,7 +53,7 @@ def perform_ocr(image_path):
 def save_error_to_file(error_message):
     timestamp = datetime.datetime.now()
     with open(output_file,  "a", encoding="utf-8") as file:
-        file.write(error_message + timestamp.replace(microsecond=0).strftime('%H:%M:%S %Y-%m-%d'))
+        file.write(timestamp.replace(microsecond=0).strftime('%Y-%m-%d %H:%M:%S') + ":  " + error_message + "\n")
 
 def enhance_image(image):
     enhancer = ImageEnhance.Brightness(image)
