@@ -12,8 +12,10 @@ for tesseract do the following:
 pytesseract.pytesseract.tesseract_cmd = r'C:\Users\USER\AppData\Local\Tesseract-OCR\tesseract.exe'
 
 
-to run the project, first set up your virtual environement
+to run the project, first set up your virtual environement:
 python -m venv venv
+
+then activate it:
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 pip install -r requirements.txt
