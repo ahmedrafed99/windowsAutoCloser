@@ -19,7 +19,7 @@ then activate it:
 source venv/bin/activate  
 On Windows: .\venv\Scripts\activate
 
-pip install -r requirements.txt
+pip install -r requirements
 
 then open the image.png image to test it (you can open the image multiple times if you want to test multiple images)
 
