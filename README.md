@@ -16,7 +16,8 @@ to run the project, first set up your virtual environement:
 python -m venv venv
 
 then activate it:
-source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+source venv/bin/activate  
+# On Windows: .\venv\Scripts\activate
 
 pip install -r requirements.txt
 
