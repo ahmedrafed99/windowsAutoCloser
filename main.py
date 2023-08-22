@@ -37,10 +37,10 @@ def main():
                         print(error_message)
                         window.close()
                         window_closed_alert = f"closed window{window_title}"
-                        print(window_closed_alert)
+                        print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:  closed window {window_title}")
                         save_error_to_file(window_closed_alert)
 
-        time.sleep(10)
+        time.sleep(300)
 
 
 
