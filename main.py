@@ -8,6 +8,7 @@ from PIL import Image, ImageEnhance
 
 WINDOW_NAME = "image" # this is what your window title should start with
 ERROR_CODES = ["277", "268", "264", "529", "279", "266", "267", "279"]  # edit this list to match the errors you want
+SCAN_PERIOD = 900 # script will scan all windows after every certain period of time, edit value in seconds
 output_file = "error_log.txt"
 
 # Define the enhancement factor for brightness and contrast
@@ -20,13 +21,18 @@ SCREENSHOT_PATH = "screenshots/"
 
 def main():
     while True:
+        print("scanning ..")
+
         for window in gw.getWindowsWithTitle(WINDOW_NAME):
             process_window(window)
-        time.sleep(300)
+
+        next_scan_time = currentTime() + datetime.timedelta(seconds=SCAN_PERIOD)
+        print(f"next scan at: {next_scan_time.strftime('%H:%M:%S')} ..")
+        time.sleep(SCAN_PERIOD)
 
 
 def process_window(window):
-    window_title = window.title
+    print(f"processing '{window.title}' ..")
     window.minimize()
     window.restore()
     time.sleep(0.5)
@@ -46,15 +52,14 @@ def take_screenshot(window):
 
 
 def save_screenshot(screenshot, window):
-    timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    screenshot_path = f"{SCREENSHOT_PATH}screenshot_{window.title}_{timestamp}.png"
+    screenshot_path = f"{SCREENSHOT_PATH}{window.title}.png"
     screenshot.save(screenshot_path)
     return screenshot_path
 
 def check_error_codes(ocr_result, window):
     for error_code in ERROR_CODES:
         if f"error code: {error_code}".replace(" ", "").lower() in ocr_result.replace(" ", "").lower():
-            error_message = f"Found Error Code: {error_code} in window: {window.title}"
+            error_message = f"Found 'Error Code {error_code}' in '{window.title}'"
             save_error_to_file(error_message)
             print(error_message)
             return True
@@ -67,9 +72,8 @@ def perform_ocr(image_path):
 
 
 def save_error_to_file(error_message):
-    timestamp = datetime.datetime.now()
     with open(output_file, "a", encoding="utf-8") as file:
-        file.write(timestamp.replace(microsecond=0).strftime('%Y-%m-%d %H:%M:%S') + ":  " + error_message + "\n")
+        file.write(currentTime().strftime('%Y-%m-%d %H:%M:%S') + ":  " + error_message + "\n")
 
 
 def enhance_image(image):
@@ -85,7 +89,10 @@ def close_window(window):
     window.close()
     window_closed_alert = f"Closed window: {window.title}"
     save_error_to_file(window_closed_alert)
-    print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {window_closed_alert}")
+    print(f"{currentTime().strftime('%Y-%m-%d %H:%M:%S')}: {window_closed_alert}")
+
+def currentTime():
+    return datetime.datetime.now()
 
 if __name__ == "__main__":
     main()
