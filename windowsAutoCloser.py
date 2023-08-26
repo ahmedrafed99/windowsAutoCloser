@@ -10,7 +10,7 @@ import pytesseract
 from PIL import Image, ImageEnhance
 
 
-WINDOW_NAME = "image"  # this is what your window title should start with
+WINDOW_NAME = "Roblox"  # this is what your window title should start with
 ERROR_CODES = ["277", "268", "264", "529", "279", "266", "267", "279"]  # edit this list to match the errors you want
 SCAN_PERIOD = 900  # script will scan all windows after every certain period of time, edit value in seconds
 output_file = "error_log.txt"
