@@ -7,11 +7,6 @@ for tesseract do the following:
 
 3. pip install pytesseract
 
-4. Set the tesseract path in the script before calling image_to_string:
-
-pytesseract.pytesseract.tesseract_cmd = r'C:\Users\USER\AppData\Local\Tesseract-OCR\tesseract.exe'
-
-
 to run the project, first set up your virtual environement:
 python -m venv venv
 

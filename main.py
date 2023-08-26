@@ -6,9 +6,9 @@ import pytesseract
 from PIL import Image, ImageEnhance
 
 
-WINDOW_NAME = "image" # this is what your window title should start with
+WINDOW_NAME = "image"  # this is what your window title should start with
 ERROR_CODES = ["277", "268", "264", "529", "279", "266", "267", "279"]  # edit this list to match the errors you want
-SCAN_PERIOD = 900 # script will scan all windows after every certain period of time, edit value in seconds
+SCAN_PERIOD = 900  # script will scan all windows after every certain period of time, edit value in seconds
 output_file = "error_log.txt"
 
 # Define the enhancement factor for brightness and contrast
@@ -32,9 +32,10 @@ def main():
 
 
 def process_window(window):
-    print(f"processing '{window.title}' ..")
+
     window.minimize()
     window.restore()
+    print(f"processing '{window.title}' ..")
     time.sleep(0.5)
 
     if window.isActive:
@@ -42,9 +43,14 @@ def process_window(window):
         enhanced_screenshot = enhance_image(screenshot)
         screenshot_path = save_screenshot(enhanced_screenshot, window)
 
-        ocr_result = perform_ocr(screenshot_path)
-        if check_error_codes(ocr_result, window):
-            close_window(window)
+        try:
+            ocr_result = perform_ocr(screenshot_path)
+            if check_error_codes(ocr_result, window):
+                close_window(window)
+        except Exception as e:
+            error_message = f"Error processing '{window.title}': {str(e)}"
+            save_error_to_file(error_message)
+            print(error_message)
 
 
 def take_screenshot(window):
@@ -59,7 +65,7 @@ def save_screenshot(screenshot, window):
 def check_error_codes(ocr_result, window):
     for error_code in ERROR_CODES:
         if f"error code: {error_code}".replace(" ", "").lower() in ocr_result.replace(" ", "").lower():
-            error_message = f"Found 'Error Code {error_code}' in '{window.title}'"
+            error_message = f"Found 'Error Code {error_code}' in '{window.title}' !!"
             save_error_to_file(error_message)
             print(error_message)
             return True
@@ -87,7 +93,7 @@ def enhance_image(image):
 
 def close_window(window):
     window.close()
-    window_closed_alert = f"Closed window: {window.title}"
+    window_closed_alert = f"Closed '{window.title}'"
     save_error_to_file(window_closed_alert)
     print(f"{currentTime().strftime('%Y-%m-%d %H:%M:%S')}: {window_closed_alert}")
 
