@@ -1,5 +1,9 @@
 import datetime
+
+import os
 import time
+
+
 import pyautogui
 import pygetwindow as gw
 import pytesseract
@@ -18,16 +22,24 @@ CONTRAST_FACTOR = 1.5
 #after running the script, this folder should contain screenshots of your windows
 SCREENSHOT_PATH = "screenshots/"
 
+# Delete the existing log file at the beginning of the script
+if os.path.exists(output_file):
+    os.remove(output_file)
+
+
 
 def main():
     while True:
         print("scanning ..")
+        save_error_to_file(" started scanning")
 
         for window in gw.getWindowsWithTitle(WINDOW_NAME):
             process_window(window)
 
         next_scan_time = currentTime() + datetime.timedelta(seconds=SCAN_PERIOD)
-        print(f"next scan at: {next_scan_time.strftime('%H:%M:%S')} ..")
+        message = f"Next scan at: {next_scan_time.strftime('%H:%M:%S')} .."
+        print(message)
+        save_error_to_file(message)
         time.sleep(SCAN_PERIOD)
 
 
