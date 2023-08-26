@@ -25,7 +25,7 @@ there's a process time of 0.5 seconds for each window.
 
 if you wish to have a different setting, then open the main.py file, and at the top you will find the parameters, update accordingly.
 
-
+dm green.beret (discord) for issues 
 
 
 
