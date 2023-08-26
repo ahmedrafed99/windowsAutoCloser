@@ -14,6 +14,7 @@ WINDOW_NAME = "image"  # this is what your window title should start with
 ERROR_CODES = ["277", "268", "264", "529", "279", "266", "267", "279"]  # edit this list to match the errors you want
 SCAN_PERIOD = 900  # script will scan all windows after every certain period of time, edit value in seconds
 output_file = "error_log.txt"
+WINDOW_PROCESS_TIME = 0.5
 
 # Define the enhancement factor for brightness and contrast
 BRIGHTNESS_FACTOR = 1.5
@@ -48,7 +49,7 @@ def process_window(window):
     window.minimize()
     window.restore()
     print(f"processing '{window.title}' ..")
-    time.sleep(0.5)
+    time.sleep(WINDOW_PROCESS_TIME)
 
     if window.isActive:
         screenshot = take_screenshot(window)
