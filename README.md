@@ -7,16 +7,18 @@ for tesseract do the following:
 
 3. pip install pytesseract
 
-to run the project, first set up your virtual environement:
+to run the project, first open your script folder with "cd path/to/the/script/folder"
+
+set up your virtual environement:
 python -m venv venv
 
 then activate it:
-source venv/bin/activate  
-On Windows: .\venv\Scripts\activate
+run "source venv/bin/activate" (not for windows)
+For Windows run ".\venv\Scripts\activate"
 
 pip install -r requirements.txt
 
-open cmd, then "cd path/to/the/script/folder" then run "python main.py"
+run "python windowsAutoCloser.py"
 
 NOTE: by default, the name of windows to be scanned must start with "Roblox", the scan will automatically be done
 after every 15min (900 seconds), and the windows to be closed need to have these error codes 
